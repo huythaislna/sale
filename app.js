@@ -1,3 +1,4 @@
+require('./db/mongoose')
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -16,8 +17,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-const partialsPath =path.join(__dirname,'../views/partials')
-ejs.registerPartials(partialsPath)
+//const partialsPath = path.join(__dirname,'../views/partials')
+//ejs.registerPartials(partialsPath)
 
 
 app.use(logger('dev'));
@@ -44,5 +45,17 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+const User = require('./models/user')
+async function createUser() {
+  const user = User({	
+    username: "tides",
+    password: "12345",
+    displayName: "Tides",
+    phone: "037",
+    avatar: "String"})
+  await user.save()
+}
+//createUser()
 
 module.exports = app;
